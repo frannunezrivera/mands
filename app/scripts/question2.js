@@ -33,6 +33,7 @@ var Q2 = {
                 empty: 'Please complete this field',
                 textDate: 'The date is incorrect',
                 number: 'This field can only contain numbers',
+                inArray: 'This user already exists!',
                 default: 'The value for this field is incorrect'
             },
 
@@ -72,8 +73,7 @@ var Q2 = {
                 validationsArray.forEach(function(validationObject, index) {
                     var validationFunction = me.validations[validationObject.validation];
 
-                    if (me.isFunction(validationFunction)) {
-                        // if (!validationFunction(validationObject.el)) {
+                    if (me.isFunction(validationFunction) && validate) {
                         if (!validationFunction.call(null, validationObject.el, validationObject.result)) {
                             me.showErrorMsg(validationObject);
                             validate = false;
@@ -136,37 +136,81 @@ var Q2 = {
             }
         };
     }()),
+
+    VARS: {
+        users: ['test@test.com']
+    },
+
     init: function() {
         'use strict';
-        //var users = ['test@test.com', 'fran@ma'];
-        var nameField = document.querySelector('#name');
-        var emailField = document.querySelector('#email');
-        var ccField = document.querySelector('#creditCard');
-        var snField = document.querySelector('#securityNumber');
-        var captchaField = document.querySelector('#captcha');
-        var questionField = document.querySelector('#question');
+        var self = this;
+        var form = document.querySelector('#validation');
+        var nameField = form.querySelector('#name');
+        var emailField = form.querySelector('#email');
+        var ccField = form.querySelector('#creditCard');
+        var snField = form.querySelector('#securityNumber');
+        var captchaField = form.querySelector('#captcha');
+        var questionField = form.querySelector('#question');
+        var submitButton = form.querySelector('button');
+
+        var validateName = function() {
+            return Q2.validate.validateEmpty(nameField);
+        };
+
+        var validateEmail = function() {
+            return Q2.validate.validateEmail(emailField, self.VARS.users);
+        };
+        var validateCC = function() {
+            return Q2.validate.validateNumber(ccField);
+        };
+        var validateSn = function() {
+            return Q2.validate.validateNumber(snField);
+        };
+        var validateCaptcha = function() {
+            return Q2.validate.validateResult(captchaField, (randomA + randomB));
+        };
+
 
         var randomA = Math.floor((Math.random() * 10) + 1);
         var randomB = Math.floor((Math.random() * 10) + 1);
         questionField.innerHTML = randomA + ' + ' + randomB + ' ? ';
 
         nameField.addEventListener('blur', function() {
-            Q2.validate.validateEmpty(nameField);
+            validateName();
         });
         emailField.addEventListener('blur', function() {
-            Q2.validate.validateEmail(emailField);
+            validateEmail();
         });
         ccField.addEventListener('blur', function() {
-            Q2.validate.validateNumber(ccField);
+            validateCC();
         });
         snField.addEventListener('blur', function() {
-            Q2.validate.validateNumber(snField);
+            validateSn();
         });
 
         captchaField.addEventListener('blur', function() {
-            Q2.validate.validateResult(captchaField, (randomA + randomB));
+            validateCaptcha();
         });
 
+        submitButton.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            if (validateName() && validateEmail() && validateCC() && validateSn() && validateCaptcha()) {
+                self.VARS.users.push(emailField.value);
+                self.printUsers();
+            }
+        });
+
+        this.printUsers();
+
+    },
+
+    printUsers: function() {
+        'use strict';
+        var userStr = this.VARS.users.join(', ');
+        var usersSpan = document.querySelector('#users');
+
+        usersSpan.innerHTML = userStr;
     }
 
 };

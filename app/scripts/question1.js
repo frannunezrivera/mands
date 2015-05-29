@@ -66,7 +66,7 @@
             }
         }
     }
-
+    
     var largeImgContainer = document.querySelector('#largeImg');
     var largeImg = largeImgContainer.querySelector('img');
     var galleryThumbs = document.querySelector('.thumbs');
