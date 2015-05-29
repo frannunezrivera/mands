@@ -46,12 +46,14 @@
         <ul>
             <li><a href="#hello">Hello</a></li>
             <li><a href="#question-one">Question One</a></li>
+            <li><a href="#question-two">Question Two</a></li>
             <li><a href="styleguide.html">Style Guide</a></li>
         </ul>
     </nav>
     <main>
         <h1 id="hello">Hello!</h1>
         <p>This is Fran Nunez answers to the <strong>M&S</strong> exercise. Please use the options menu to move to the desired question.</p>
+
         <h1 id="question-one">Question One.</h1>
         <div>
             <h2>Gallery</h2>
@@ -76,10 +78,28 @@
                 </p>
             </div>
         </div>
+        <h1 id="question-two">Question Two.</h1>
+        <div>
+            <h2>Validation</h2>
+            <p>
+                <form id="validation">
+                    <p><input id= "name" type="text" placeholder="First Name" /><span></span></p>
+                    <p><input id= "email" type="text" placeholder="Email" /><span></span></p>
+                    <p><input id= "creditCard" type="text" placeholder="Credit Card" maxlength="16"/><span></span></p>
+                    <p><input id= "securityNumber" type="text" placeholder="Security Number" maxlength="3"/><span></span></p>
+                    <p>
+                        <span id="question"> 1 + 1 ? </span> <input id= "captcha" type="text" placeholder="Answer" /><span></span>
+                    </p>
+                    <p>
+                        <button href="#ignore-click" class="button--primary">Submit</button>
+                    </p>
+                </form>
+            </p>
     </main>
     <!-- build:js scripts/main.min.js -->
     <script src="scripts/main.js"></script>
     <script src="scripts/question1.js"></script>
+    <script src="scripts/question2.js"></script>
     <!-- endbuild -->
 </body>
 
